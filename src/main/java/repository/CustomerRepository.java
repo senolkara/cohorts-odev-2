@@ -1,20 +1,11 @@
 package repository;
 
-import model.Customer;
+import dto.CustomerRequestDto;
+import dto.CustomerResponseDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerRepository {
-
-    private List<Customer> customerList = new ArrayList<>();
-
-    public void createCustomer(Customer customer) {
-        customerList.add(customer);
-    }
-
-    public List<Customer> getCustomerList() {
-        return customerList;
-    }
-
+public interface CustomerRepository {
+    void save(CustomerRequestDto customerRequestDto);
+    List<CustomerResponseDto> getAll();
 }

@@ -1,18 +1,14 @@
-package model;
+package dto;
+
+import model.Book;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class Publisher {
-
+public class PublisherResponseDto {
     private String name;
     private LocalDate createDate;
     private List<Book> bookList;
-
-    public Publisher(String name, LocalDate createDate) {
-        this.name = name;
-        this.createDate = createDate;
-    }
 
     public String getName() {
         return name;
@@ -36,14 +32,5 @@ public class Publisher {
 
     public void setBookList(List<Book> bookList) {
         this.bookList = bookList;
-    }
-
-    @Override
-    public String toString() {
-        return "Publisher{" +
-                "name='" + name + '\'' +
-                ", createDate=" + createDate +
-                ", bookList=" + bookList +
-                '}';
     }
 }

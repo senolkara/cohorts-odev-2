@@ -1,18 +1,14 @@
 package repository;
 
+import dto.PublisherRequestDto;
+import dto.PublisherResponseDto;
 import model.Publisher;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class PublisherRepository {
-    private List<Publisher> publishers = new ArrayList<>();
-
-    public void save(Publisher publisher) {
-        publishers.add(publisher);
-    }
-
-    public List<Publisher> findAll() {
-        return publishers;
-    }
+public interface PublisherRepository {
+    void save(PublisherRequestDto publisherRequestDto);
+    List<PublisherResponseDto> getAll();
+    Optional<Publisher> getPublisherByName(String publisherName);
 }

@@ -1,21 +1,15 @@
-package model;
+package dto;
+
+import model.Book;
 
 import java.util.Set;
 
-public class Author {
-
+public class AuthorResponseDto {
     private String name;
     private String surname;
     private String email;
     private String bio;
     private Set<Book> books;
-
-    public Author(String name, String surname, String email, String bio) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.bio = bio;
-    }
 
     public String getName() {
         return name;
@@ -55,16 +49,5 @@ public class Author {
 
     public void setBooks(Set<Book> books) {
         this.books = books;
-    }
-
-    @Override
-    public String toString() {
-        return "Author{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", bio='" + bio + '\'' +
-                ", books=" + books +
-                '}';
     }
 }

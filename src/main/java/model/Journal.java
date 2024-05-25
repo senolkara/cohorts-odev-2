@@ -1,12 +1,12 @@
 package model;
 
-import model.enums.ProductType;
 import model.factory.Product;
+import model.enums.ProductType;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Book implements Product {
+public class Journal implements Product {
     private ProductType productType;
     private String name;
     private BigDecimal amount;
@@ -14,7 +14,7 @@ public class Book implements Product {
     private Publisher publisher;
     private Author author;
 
-    public Book(ProductType productType, String name, BigDecimal amount, String description, Publisher publisher, Author author) {
+    public Journal(ProductType productType, String name, BigDecimal amount, String description, Publisher publisher, Author author) {
         this.productType = productType;
         this.name = name;
         this.amount = amount;
@@ -79,7 +79,7 @@ public class Book implements Product {
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "Journal{" +
                 "productType=" + productType +
                 ", name='" + name + '\'' +
                 ", amount=" + amount +
@@ -93,8 +93,8 @@ public class Book implements Product {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return productType == book.productType && Objects.equals(name, book.name) && Objects.equals(amount, book.amount) && Objects.equals(description, book.description) && Objects.equals(publisher, book.publisher) && Objects.equals(author, book.author);
+        Journal journal = (Journal) o;
+        return productType == journal.productType && Objects.equals(name, journal.name) && Objects.equals(amount, journal.amount) && Objects.equals(description, journal.description) && Objects.equals(publisher, journal.publisher) && Objects.equals(author, journal.author);
     }
 
     @Override

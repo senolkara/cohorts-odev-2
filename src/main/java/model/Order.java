@@ -1,6 +1,7 @@
 package model;
 
 import model.enums.OrderStatus;
+import model.factory.Product;
 
 import java.time.LocalDateTime;
 import java.util.List;
