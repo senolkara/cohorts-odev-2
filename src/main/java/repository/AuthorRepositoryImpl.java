@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class AuthorRepositoryImpl implements AuthorRepository {
 
-    private List<Author> authorList = new ArrayList<>();
+    private static List<Author> authorList = new ArrayList<>();
 
     @Override
     public void save(AuthorRequestDto authorRequestDto) {
@@ -39,7 +39,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public Optional<Author> getAuthorByName(String authorName) {
+    public Optional<Author> getByName(String authorName) {
         return authorList.stream()
                 .filter(author -> author.getName().equals(authorName))
                 .findFirst();

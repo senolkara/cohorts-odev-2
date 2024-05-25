@@ -2,7 +2,6 @@ package service;
 
 import dto.CustomerRequestDto;
 import dto.CustomerResponseDto;
-import model.Customer;
 import model.enums.AccountType;
 import repository.CustomerRepository;
 import repository.CustomerRepositoryImpl;
@@ -16,12 +15,23 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void save(CustomerRequestDto customerRequestDto) {
-        customerRepository.save(customerRequestDto);
+        Optional<CustomerResponseDto> customerResponseDtoByEmail = getByEmail(customerRequestDto.getEmail());
+        if (customerResponseDtoByEmail.isEmpty()){
+            customerRepository.save(customerRequestDto);
+        }
+        else{
+            throw new RuntimeException("This email address is registered!");
+        }
     }
 
     @Override
     public List<CustomerResponseDto> getAll() {
         return customerRepository.getAll();
+    }
+
+    @Override
+    public Optional<CustomerResponseDto> getByEmail(String email){
+        return customerRepository.getByEmail(email);
     }
 
     @Override

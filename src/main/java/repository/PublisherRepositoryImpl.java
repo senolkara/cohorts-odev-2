@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class PublisherRepositoryImpl implements PublisherRepository {
-    private List<Publisher> publishers = new ArrayList<>();
+    private static List<Publisher> publishers = new ArrayList<>();
 
     @Override
     public void save(PublisherRequestDto publisherRequestDto) {
@@ -31,7 +31,7 @@ public class PublisherRepositoryImpl implements PublisherRepository {
     }
 
     @Override
-    public Optional<Publisher> getPublisherByName(String publisherName){
+    public Optional<Publisher> getByName(String publisherName){
         return publishers.stream()
                 .filter(publisher -> publisher.getName().equals(publisherName))
                 .findFirst();

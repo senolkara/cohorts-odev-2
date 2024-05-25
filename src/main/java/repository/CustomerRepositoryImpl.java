@@ -6,6 +6,7 @@ import model.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerRepositoryImpl implements CustomerRepository {
 
@@ -36,5 +37,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             customerResponseDtoList.add(customerResponseDto);
         });
         return customerResponseDtoList;
+    }
+
+    @Override
+    public Optional<CustomerResponseDto> getByEmail(String email){
+        return getAll().stream()
+                .filter(customerResponseDto -> customerResponseDto.getEmail().equals(email))
+                .findFirst();
     }
 }

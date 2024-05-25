@@ -12,20 +12,15 @@ import model.factory.ProductFactory;
 import java.util.*;
 
 public class ProductRepositoryImpl implements ProductRepository {
-    private Set<Product> productSet = new HashSet<>();
+    private static Set<Product> productSet = new HashSet<>();
 
-    private PublisherRepository publisherRepository;
-    private AuthorRepository authorRepository;
-
-    public ProductRepositoryImpl(PublisherRepository publisherRepository, AuthorRepository authorRepository){
-        this.publisherRepository = publisherRepository;
-        this.authorRepository = authorRepository;
-    }
+    private PublisherRepository publisherRepository = new PublisherRepositoryImpl();
+    private AuthorRepository authorRepository = new AuthorRepositoryImpl();
 
     @Override
     public void save(ProductRequestDto productRequestDto) {
-        Publisher publisher = controlPublisherByOptional(productRequestDto);
-        Author author = controlAuthorByOptional(productRequestDto);
+        Publisher publisher = getPublisherByProductRequestDto(productRequestDto);
+        Author author = getAuthorByProductRequestDto(productRequestDto);
         Product product = ProductFactory.getProduct(
                 productRequestDto.getProductType(),
                 productRequestDto.getName(),
@@ -40,60 +35,61 @@ public class ProductRepositoryImpl implements ProductRepository {
     public List<ProductResponseDto> getAll() {
         List<ProductResponseDto> productResponseDtoList = new ArrayList<>();
         productSet.forEach(product -> {
-            PublisherResponseDto publisherResponseDto = new PublisherResponseDto();
-            publisherResponseDto.setName(product.getPublisher().getName());
-            publisherResponseDto.setCreateDate(product.getPublisher().getCreateDate());
-            publisherResponseDto.setBookList(product.getPublisher().getBookList());
-            
-            AuthorResponseDto authorResponseDto = new AuthorResponseDto();
-            authorResponseDto.setName(product.getAuthor().getName());
-            authorResponseDto.setSurname(product.getAuthor().getSurname());
-            authorResponseDto.setEmail(product.getAuthor().getEmail());
-            authorResponseDto.setBio(product.getAuthor().getBio());
-            authorResponseDto.setBooks(product.getAuthor().getBooks());
-
-
-            ProductResponseDto productResponseDto = getProductResponseDto(product, publisherResponseDto, authorResponseDto);
+            PublisherResponseDto publisherResponseDto = getPublisherResponseDto(product);
+            AuthorResponseDto authorResponseDto = getAuthorResponseDto(product);
+            ProductResponseDto productResponseDto = getProductResponseDto(product);
+            productResponseDto.setPublisherResponseDto(publisherResponseDto);
+            productResponseDto.setAuthorResponseDto(authorResponseDto);
             productResponseDtoList.add(productResponseDto);
         });
         return productResponseDtoList;
     }
 
-    private ProductResponseDto getProductResponseDto(Product product, PublisherResponseDto publisherResponseDto, AuthorResponseDto authorResponseDto) {
+    @Override
+    public Publisher getPublisherByProductRequestDto(ProductRequestDto productRequestDto){
+        Optional<Publisher> publisherOptional = publisherRepository.getByName(productRequestDto.getPublisherRequestDto().getName());
+        if (publisherOptional.isEmpty()){
+            System.out.println("publisher not found : " + productRequestDto.getPublisherRequestDto().getName());
+            throw new RuntimeException("publisher not found");
+        }
+        return publisherOptional.get();
+    }
+
+    @Override
+    public Author getAuthorByProductRequestDto(ProductRequestDto productRequestDto){
+        Optional<Author> authorOptional = authorRepository.getByName(productRequestDto.getAuthorRequestDto().getName());
+        if (authorOptional.isEmpty()){
+            System.out.println("author not found : " + productRequestDto.getAuthorRequestDto().getName());
+            throw new RuntimeException("author not found");
+        }
+        return authorOptional.get();
+    }
+
+    private ProductResponseDto getProductResponseDto(Product product) {
         ProductResponseDto productResponseDto = new ProductResponseDto();
         productResponseDto.setName(product.getName());
         productResponseDto.setAmount(product.getAmount());
         productResponseDto.setDescription(product.getDescription());
         productResponseDto.setProductType(product.getProductType());
-        productResponseDto.setPublisherResponseDto(publisherResponseDto);
-        productResponseDto.setAuthorResponseDto(authorResponseDto);
         productResponseDto.setProductType(product.getProductType());
         return productResponseDto;
     }
 
-    private Publisher controlPublisherByOptional(ProductRequestDto productRequestDto){
-        Optional<Publisher> publisherOptionalByName = getPublisherByName(productRequestDto.getPublisherRequestDto().getName());
-        if (publisherOptionalByName.isEmpty()){
-            System.out.println("publisher not found : " + productRequestDto.getPublisherRequestDto().getName());
-            throw new RuntimeException("publisher not found");
-        }
-        return publisherOptionalByName.get();
+    private PublisherResponseDto getPublisherResponseDto(Product product){
+        PublisherResponseDto publisherResponseDto = new PublisherResponseDto();
+        publisherResponseDto.setName(product.getPublisher().getName());
+        publisherResponseDto.setCreateDate(product.getPublisher().getCreateDate());
+        publisherResponseDto.setBookList(product.getPublisher().getBookList());
+        return publisherResponseDto;
     }
 
-    private Optional<Publisher> getPublisherByName(String publisherName){
-        return publisherRepository.getPublisherByName(publisherName);
-    }
-
-    private Author controlAuthorByOptional(ProductRequestDto productRequestDto){
-        Optional<Author> authorOptionalByName = getAuthorByName(productRequestDto.getAuthorRequestDto().getName());
-        if (authorOptionalByName.isEmpty()){
-            System.out.println("author not found : " + productRequestDto.getAuthorRequestDto().getName());
-            throw new RuntimeException("publisher not found");
-        }
-        return authorOptionalByName.get();
-    }
-
-    private Optional<Author> getAuthorByName(String authorName){
-        return authorRepository.getAuthorByName(authorName);
+    private AuthorResponseDto getAuthorResponseDto(Product product){
+        AuthorResponseDto authorResponseDto = new AuthorResponseDto();
+        authorResponseDto.setName(product.getAuthor().getName());
+        authorResponseDto.setSurname(product.getAuthor().getSurname());
+        authorResponseDto.setEmail(product.getAuthor().getEmail());
+        authorResponseDto.setBio(product.getAuthor().getBio());
+        authorResponseDto.setBooks(product.getAuthor().getBooks());
+        return authorResponseDto;
     }
 }

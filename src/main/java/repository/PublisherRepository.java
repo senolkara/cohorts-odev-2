@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface PublisherRepository {
     void save(PublisherRequestDto publisherRequestDto);
     List<PublisherResponseDto> getAll();
-    Optional<Publisher> getPublisherByName(String publisherName);
+    Optional<Publisher> getByName(String publisherName);
 }

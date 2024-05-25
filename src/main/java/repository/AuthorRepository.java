@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface AuthorRepository {
     void save(AuthorRequestDto authorRequestDto);
     List<AuthorResponseDto> getAll();
-    Optional<Author> getAuthorByName(String authorName);
+    Optional<Author> getByName(String authorName);
 }

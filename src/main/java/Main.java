@@ -4,6 +4,7 @@ import dto.ProductRequestDto;
 import dto.PublisherRequestDto;
 import model.Order;
 import model.enums.AccountType;
+import model.enums.ProductType;
 import service.*;
 
 import java.math.BigDecimal;
@@ -24,7 +25,7 @@ public class Main {
         customerRequestDto1.setSurname("dırman");
         customerRequestDto1.setEmail("cem@gmail.com");
         customerRequestDto1.setPhoneNumber("05051234567");
-        customerRequestDto1.setPassword(createPasswordHash("987654321"));
+        customerRequestDto1.setPassword(createRandomHash("987654321"));
         customerRequestDto1.setCredit(0);
         customerRequestDto1.setAccountType(AccountType.STANDARD);
 
@@ -35,7 +36,7 @@ public class Main {
         customerRequestDto2.setSurname("karakurt");
         customerRequestDto2.setEmail("senol@gmail.com");
         customerRequestDto2.setPhoneNumber("05051234567");
-        customerRequestDto2.setPassword(createPasswordHash("987654321"));
+        customerRequestDto2.setPassword(createRandomHash("987654321"));
         customerRequestDto2.setCredit(0);
         customerRequestDto2.setAccountType(AccountType.STANDARD);
 
@@ -46,7 +47,7 @@ public class Main {
         customerRequestDto3.setSurname("daşdelen");
         customerRequestDto3.setEmail("ahmet@gmail.com");
         customerRequestDto3.setPhoneNumber("05051234567");
-        customerRequestDto3.setPassword(createPasswordHash("987654321"));
+        customerRequestDto3.setPassword(createRandomHash("987654321"));
         customerRequestDto3.setCredit(0);
         customerRequestDto3.setAccountType(AccountType.STANDARD);
 
@@ -81,6 +82,34 @@ public class Main {
         System.out.println("\n--------------\n");
         System.out.println(publisherService.hashCode());
 
+        List<AuthorRequestDto> authorRequestDtoList = new ArrayList<>();
+
+        AuthorRequestDto authorRequestDto1 = new AuthorRequestDto();
+        authorRequestDto1.setName("AHMET HAMDİ");
+        authorRequestDto1.setSurname("TANPINAR");
+        authorRequestDto1.setEmail("ahmethamdi@gmail.com");
+        authorRequestDtoList.add(authorRequestDto1);
+
+        AuthorRequestDto authorRequestDto2 = new AuthorRequestDto();
+        authorRequestDto2.setName("MURAT");
+        authorRequestDto2.setSurname("TAŞKIRAN");
+        authorRequestDto2.setEmail("murat@gmail.com");
+        authorRequestDtoList.add(authorRequestDto2);
+
+        AuthorRequestDto authorRequestDto3 = new AuthorRequestDto();
+        authorRequestDto3.setName("OSMAN");
+        authorRequestDto3.setSurname("BARDAK");
+        authorRequestDto3.setEmail("murat@gmail.com");
+        authorRequestDtoList.add(authorRequestDto3);
+
+        AuthorService authorService = new AuthorServiceImpl();
+        authorRequestDtoList.forEach(authorService::save);
+
+        System.out.println("\nAUTHOR LIST\n");
+        authorService.getAll().forEach(System.out::println);
+        System.out.println("\n--------------\n");
+        System.out.println(authorService.hashCode());
+
 
         List<ProductRequestDto> productRequestDtoList = new ArrayList<>();
         ProductRequestDto productRequestDto1 = new ProductRequestDto();
@@ -90,6 +119,7 @@ public class Main {
                 "Hem bak, dikeni de yok. Pek de kişilik sahibiymiş, şeker portakalı olduğu " +
                 "ta uzaktan belli. Ben senin boyunda olsaydım başka şey istemezdim.”\n" +
                 "“Ama ben büyük bir ağaç istiyordum.");
+        productRequestDto1.setProductType(ProductType.BOOK);
 
         PublisherRequestDto publisherRequestDtoForProductRequestDto1 = new PublisherRequestDto();
         publisherRequestDtoForProductRequestDto1.setName("CAN YAYINLARI");
@@ -97,12 +127,12 @@ public class Main {
 
         productRequestDto1.setPublisherRequestDto(publisherRequestDtoForProductRequestDto1);
 
-        AuthorRequestDto authorRequestDto1 = new AuthorRequestDto();
-        authorRequestDto1.setName("AHMET HAMDİ");
-        authorRequestDto1.setSurname("TANPINAR");
-        authorRequestDto1.setEmail("ahmethamdi@gmail.com");
+        AuthorRequestDto authorRequestDtoDtoForProductRequestDto1 = new AuthorRequestDto();
+        authorRequestDtoDtoForProductRequestDto1.setName("AHMET HAMDİ");
+        authorRequestDtoDtoForProductRequestDto1.setSurname("TANPINAR");
+        authorRequestDtoDtoForProductRequestDto1.setEmail("ahmethamdi@gmail.com");
 
-        productRequestDto1.setAuthorRequestDto(authorRequestDto1);
+        productRequestDto1.setAuthorRequestDto(authorRequestDtoDtoForProductRequestDto1);
 
         productRequestDtoList.add(productRequestDto1);
 
@@ -115,6 +145,7 @@ public class Main {
                 "Hem bak, dikeni de yok. Pek de kişilik sahibiymiş, şeker portakalı olduğu " +
                 "ta uzaktan belli. Ben senin boyunda olsaydım başka şey istemezdim.”\n" +
                 "“Ama ben büyük bir ağaç istiyordum.");
+        productRequestDto2.setProductType(ProductType.BOOK);
 
         PublisherRequestDto publisherRequestDtoForProductRequestDto2 = new PublisherRequestDto();
         publisherRequestDtoForProductRequestDto2.setName("CAN YAYINLARI");
@@ -122,12 +153,12 @@ public class Main {
 
         productRequestDto2.setPublisherRequestDto(publisherRequestDtoForProductRequestDto2);
 
-        AuthorRequestDto authorRequestDto2 = new AuthorRequestDto();
-        authorRequestDto2.setName("MURAT");
-        authorRequestDto2.setSurname("TAŞKIRAN");
-        authorRequestDto2.setEmail("murat@gmail.com");
+        AuthorRequestDto authorRequestDtoDtoForProductRequestDto2 = new AuthorRequestDto();
+        authorRequestDtoDtoForProductRequestDto2.setName("MURAT");
+        authorRequestDtoDtoForProductRequestDto2.setSurname("TAŞKIRAN");
+        authorRequestDtoDtoForProductRequestDto2.setEmail("murat@gmail.com");
 
-        productRequestDto2.setAuthorRequestDto(authorRequestDto2);
+        productRequestDto2.setAuthorRequestDto(authorRequestDtoDtoForProductRequestDto2);
         productRequestDtoList.add(productRequestDto2);
 
 
@@ -138,6 +169,7 @@ public class Main {
                 "Hem bak, dikeni de yok. Pek de kişilik sahibiymiş, şeker portakalı olduğu " +
                 "ta uzaktan belli. Ben senin boyunda olsaydım başka şey istemezdim.”\n" +
                 "“Ama ben büyük bir ağaç istiyordum.");
+        productRequestDto3.setProductType(ProductType.JOURNAL);
 
         PublisherRequestDto publisherRequestDtoForProductRequestDto3 = new PublisherRequestDto();
         publisherRequestDtoForProductRequestDto3.setName("DERGAH YAYINLARI");
@@ -145,22 +177,21 @@ public class Main {
 
         productRequestDto3.setPublisherRequestDto(publisherRequestDtoForProductRequestDto3);
 
-        AuthorRequestDto authorRequestDto3 = new AuthorRequestDto();
-        authorRequestDto3.setName("OSMAN");
-        authorRequestDto3.setSurname("BARDAK");
-        authorRequestDto3.setEmail("murat@gmail.com");
+        AuthorRequestDto authorRequestDtoDtoForProductRequestDto3 = new AuthorRequestDto();
+        authorRequestDtoDtoForProductRequestDto3.setName("OSMAN");
+        authorRequestDtoDtoForProductRequestDto3.setSurname("BARDAK");
+        authorRequestDtoDtoForProductRequestDto3.setEmail("murat@gmail.com");
 
-        productRequestDto3.setAuthorRequestDto(authorRequestDto3);
+        productRequestDto3.setAuthorRequestDto(authorRequestDtoDtoForProductRequestDto3);
         productRequestDtoList.add(productRequestDto3);
 
-        ProductService productService = new ProductServiceImpl(publisherService);
+        ProductService productService = new ProductServiceImpl(publisherService, authorService);
 
         System.out.println("\nPRODUCT LIST\n");
         productRequestDtoList.forEach(productService::save);
 
         productService.listAll();
 
-        //order
         //System.out.println("\n ORDER LIST \n");
 
         //customer1.setOrderList(List.of(prepareOrder(List.of(product1, product2)))); çözüm 1
@@ -188,22 +219,22 @@ public class Main {
 //        return new Order(productList, "order123");
 //    }
 
-    private static String createPasswordHash(String password){
-        String generatedPassword = null;
+    private static String createRandomHash(String str){
+        String generated = null;
         try
         {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes());
+            md.update(str.getBytes());
             byte[] bytes = md.digest();
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
-            generatedPassword = sb.toString();
+            generated = sb.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return generatedPassword;
+        return generated;
     }
 
 }
