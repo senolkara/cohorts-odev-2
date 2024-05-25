@@ -12,10 +12,10 @@ public class Customer {
     private String surname;
     private String email;
     private String password;
-    private Integer credit;
     private String phoneNumber;
-    private Set<Address> addresses;
     private Boolean isActive;
+    private Integer credit;
+    private Set<Address> addresses;
     private AccountType accountType;
     private List<Order> orderList = new ArrayList<>();
 

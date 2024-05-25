@@ -43,6 +43,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public Optional<CustomerResponseDto> getByEmail(String email){
         return getAll().stream()
                 .filter(customerResponseDto -> customerResponseDto.getEmail().equals(email))
+                .filter(CustomerResponseDto::getActive)
                 .findFirst();
     }
 }
