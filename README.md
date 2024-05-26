@@ -1,4 +1,5 @@
 # Cevap 1
+
 ## Spring
 
 Spring framework, uygulama geliştirmenin tüm temel gereksinimlerini karşılayan bazı ortak gereksinimlerle birlikte gelen ünlü ve en popüler Java frameworküdür. Kurumsal uygulamalar için kullanılan açık kaynaklı bir frameworktür. İşletmelerin uygulama geliştirme için Spring'i seçmelerinde çok sayıda neden vardır.
@@ -44,3 +45,28 @@ JSF, MVC yazılım tasarım modeline dayanır ve bazı yeniden kullanılabilir b
 JSF'yi AJAX etkin bileşenlerle de entegre edebilirsiniz; bu, müşteri deneyimini geliştirecek ve doğrulamalar için Ajax olayları ekleyecektir. JSF'nin daha büyük kısmı J2E'ye katkıda bulunur. Benzersiz ve son teknoloji web uygulamaları oluşturmanıza yardımcı olur.
 
 Yukarıdaki frameworklerin dışında Google Web toolkit (GWT), Apache Hadoop, Micronaut, Grails, Play, DropWizard vs. gibi diğer frameworktelerde mevcuttur.
+
+# Cevap2
+
+## SOA (Service Oriented Architecture
+Servis odaklı mimari adıyla anılır. İş uygulamaları oluşturmak için services adı verilen yazılım bileşenlerini kullanan bir yazılım geliştirme yöntemidir. Her hizmet, bir iş özelliği sunar ve hizmetler, farklı platform ve diller arasında birbiriyle iletişim de kurabilir. Geliştiriciler, hizmetleri farklı sistemlerde yeniden kullanmak veya birkaç bağımsız hizmeti karmaşık görevleri gerçekleştirmek amacıyla birleştirmek için hizmet odaklı mimariyi kullanır.
+Bu mimaride Service, Policies, Endpoints, Contracts, Messages, Service Consumer gibi bileşenler kullanılır.
+
+## Web Service
+Bir ağ üzerinden birlikte çalışabilir makineler arası etkileşimi desteklemek üzere tasarlanmış bir yazılım sistemi olarak tanımlanır. Web hizmeti belirli bir görevi ya da görev kümesini karşılar ve WSDL (Web Services Description Language; Web Hizmetleri Tanımlama Dili) adı verilen standart bir XML gösteriminde bir hizmet açıklamasıyla tanımlanır. Hizmet tanımı, ileti biçimleri (işlemleri ayrıntılandıran), aktarım iletişim kuralları ve konum da dahil olmak üzere, hizmetle etkileşim için gereken tüm ayrıntıları sağlar. Diğer sistemler, genellikle Web ile ilgili diğer standartlarla birlikte bir XML diziselleştirmesiyle HTTP kullanarak web hizmetiyle etkileşimde bulunmak için SOAP iletilerini kullanır. WSDL arabirimi, hizmetin nasıl uygulandığına ilişkin ayrıntıları gizler ve hizmet, uygulandığı donanım ya da yazılım platformundan bağımsız olarak ve yazıldığı programlama dilinden bağımsız olarak kullanılabilir. Web hizmetlerini temel alan uygulamalar, gevşek olarak eşlenmiş, bileşen odaklı, teknolojilerarası uygulamalardır. Web hizmetleri, karmaşık bir toplama ya da iş hareketi gerçekleştirmek için tek başına ya da diğer web hizmetleriyle birlikte kullanılabilir.
+
+## Restful Service
+REST istemci-sunucu arasında hızlı ve kolay şekilde iletişim kurulmasını sağlayan bir servis yapısıdır. Servis yönelimli mimari üzerine oluşturulan yazılımlarda kullanılan bir veri transfer yöntemidir. Açılımı Representational State Transfer. İstemci ve sunucu arasında XML veya JSON verilerini taşıyarak uygulamaların haberleşmesini sağlar. Restful servisler de bu mimariyi yani REST mimariyi kullanan web servislerdir. RESTful servisler veri iletiminde farklı HTTP metodlarını kullanmaktadır. Bunlar GET, POST, PUT, DELETE metotlarıdır. Bunların dışında PATCH, OPTIONS, CONNECT, TRACE, HEAD gibi metodlar da kullanılmaktadır. 
+
+## HTTP Metodları
+### GET
+Belirli bir kaynaktan veri istemek için kullanılır.
+
+### POST
+Bir kaynak oluşturmak/güncellemek için bir belirli bir kaynağa veri göndermek için kullanılır.
+
+### PUT
+Bir kaynak oluşturmak/güncellemek için bir sunucuya veri göndermek için kullanılır. POST ve PUT arasındaki fark, PUT isteklerinin önemsiz olmasıdır. Yani, aynı PUT isteğini birden çok kez çağırmak her zaman aynı sonucu verir. Buna karşılık, bir POST isteğini art arda çağırmak, aynı kaynağı birden çok kez oluşturmanın yan etkilerine sahiptir.
+
+### DELETE
+Belirtilen kaynağı siler.
