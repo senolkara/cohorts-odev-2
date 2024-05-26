@@ -36,4 +36,5 @@ public class PublisherRepositoryImpl implements PublisherRepository {
                 .filter(publisher -> publisher.getName().equals(publisherName))
                 .findFirst();
     }
+
 }

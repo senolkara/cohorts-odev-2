@@ -2,20 +2,22 @@ package service;
 
 import dto.CustomerRequestDto;
 import dto.CustomerResponseDto;
+import factory.repository.CustomerRepositoryFactory;
 import model.enums.AccountType;
+import model.enums.RepositoryType;
 import repository.CustomerRepository;
-import repository.CustomerRepositoryImpl;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CustomerServiceImpl implements CustomerService {
 
-    private CustomerRepository customerRepository = new CustomerRepositoryImpl();
+    private CustomerRepositoryFactory customerRepositoryFactory = new CustomerRepositoryFactory();
+    private CustomerRepository customerRepository = customerRepositoryFactory.getBaseRepository(RepositoryType.CUSTOMER);
 
     @Override
     public void save(CustomerRequestDto customerRequestDto) {
-        Optional<CustomerResponseDto> customerResponseDtoByEmail = getByEmail(customerRequestDto.getEmail());
+        Optional<CustomerResponseDto> customerResponseDtoByEmail = getByEmail(customerRequestDto.getUserRequestDto().getEmail());
         if (customerResponseDtoByEmail.isEmpty()){
             customerRepository.save(customerRequestDto);
         }
@@ -47,9 +49,8 @@ public class CustomerServiceImpl implements CustomerService {
 //        }
     }
 
-    public void changeAccountTypeByCredit(String email, AccountType accountType) { //ödev
+    public void changeAccountTypeByCredit(String email, AccountType accountType) {
 
     }
-
 
 }

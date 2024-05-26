@@ -1,6 +1,6 @@
 package model;
 
-import model.factory.Product;
+import factory.model.Product;
 import model.enums.ProductType;
 
 import java.math.BigDecimal;
@@ -13,14 +13,18 @@ public class Journal implements Product {
     private String description;
     private Publisher publisher;
     private Author author;
+    private Category category;
+    private Integer stock;
 
-    public Journal(ProductType productType, String name, BigDecimal amount, String description, Publisher publisher, Author author) {
+    public Journal(ProductType productType, String name, BigDecimal amount, String description, Publisher publisher, Author author, Category category, Integer stock) {
         this.productType = productType;
         this.name = name;
         this.amount = amount;
         this.description = description;
         this.publisher = publisher;
         this.author = author;
+        this.category = category;
+        this.stock = stock;
     }
 
     @Override
@@ -78,6 +82,24 @@ public class Journal implements Product {
     }
 
     @Override
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    @Override
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    @Override
     public String toString() {
         return "Journal{" +
                 "productType=" + productType +
@@ -86,6 +108,8 @@ public class Journal implements Product {
                 ", description='" + description + '\'' +
                 ", publisher=" + publisher +
                 ", author=" + author +
+                ", category=" + category +
+                ", stock=" + stock +
                 '}';
     }
 
@@ -94,11 +118,11 @@ public class Journal implements Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Journal journal = (Journal) o;
-        return productType == journal.productType && Objects.equals(name, journal.name) && Objects.equals(amount, journal.amount) && Objects.equals(description, journal.description) && Objects.equals(publisher, journal.publisher) && Objects.equals(author, journal.author);
+        return productType == journal.productType && Objects.equals(name, journal.name) && Objects.equals(amount, journal.amount) && Objects.equals(description, journal.description) && Objects.equals(publisher, journal.publisher) && Objects.equals(author, journal.author) && Objects.equals(category, journal.category) && Objects.equals(stock, journal.stock);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productType, name, amount, description, publisher, author);
+        return Objects.hash(productType, name, amount, description, publisher, author, category, stock);
     }
 }

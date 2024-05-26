@@ -1,33 +1,49 @@
 package repository;
 
-import dto.AuthorResponseDto;
-import dto.ProductRequestDto;
-import dto.ProductResponseDto;
-import dto.PublisherResponseDto;
+import dto.*;
+import factory.repository.AuthorRepositoryFactory;
+import factory.repository.CategoryRepositoryFactory;
+import factory.repository.PublisherRepositoryFactory;
+import factory.repository.UserRepositoryFactory;
 import model.Author;
+import model.Category;
 import model.Publisher;
-import model.factory.Product;
-import model.factory.ProductFactory;
+import factory.model.Product;
+import factory.model.ProductFactory;
+import model.enums.RepositoryType;
 
 import java.util.*;
 
 public class ProductRepositoryImpl implements ProductRepository {
+
     private static Set<Product> productSet = new HashSet<>();
 
-    private PublisherRepository publisherRepository = new PublisherRepositoryImpl();
-    private AuthorRepository authorRepository = new AuthorRepositoryImpl();
+    private UserRepositoryFactory userRepositoryFactory = new UserRepositoryFactory();
+    private UserRepository userRepository = userRepositoryFactory.getBaseRepository(RepositoryType.USER);
+
+    private PublisherRepositoryFactory publisherRepositoryFactory = new PublisherRepositoryFactory();
+    private PublisherRepository publisherRepository = publisherRepositoryFactory.getBaseRepository(RepositoryType.PUBLISHER);
+
+    private AuthorRepositoryFactory authorRepositoryFactory = new AuthorRepositoryFactory();
+    private AuthorRepository authorRepository = authorRepositoryFactory.getBaseRepository(RepositoryType.AUTHOR);
+
+    private CategoryRepositoryFactory categoryRepositoryFactory = new CategoryRepositoryFactory();
+    private CategoryRepository categoryRepository = categoryRepositoryFactory.getBaseRepository(RepositoryType.CATEGORY);
 
     @Override
     public void save(ProductRequestDto productRequestDto) {
         Publisher publisher = getPublisherByProductRequestDto(productRequestDto);
         Author author = getAuthorByProductRequestDto(productRequestDto);
+        Category category = getCategoryByProductRequestDto(productRequestDto);
         Product product = ProductFactory.getProduct(
                 productRequestDto.getProductType(),
                 productRequestDto.getName(),
                 productRequestDto.getAmount(),
                 productRequestDto.getDescription(),
                 publisher,
-                author);
+                author,
+                category,
+                productRequestDto.getStock());
         productSet.add(product);
     }
 
@@ -57,12 +73,38 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Author getAuthorByProductRequestDto(ProductRequestDto productRequestDto){
-        Optional<Author> authorOptional = authorRepository.getByName(productRequestDto.getAuthorRequestDto().getName());
+        Optional<Author> authorOptional = authorRepository.getByName(productRequestDto.getAuthorRequestDto().getUserRequestDto().getName());
         if (authorOptional.isEmpty()){
-            System.out.println("author not found : " + productRequestDto.getAuthorRequestDto().getName());
+            System.out.println("author not found : " + productRequestDto.getAuthorRequestDto().getUserRequestDto().getName());
             throw new RuntimeException("author not found");
         }
         return authorOptional.get();
+    }
+
+    @Override
+    public Category getCategoryByProductRequestDto(ProductRequestDto productRequestDto){
+        Optional<Category> categoryOptional = categoryRepository.getByName(
+                productRequestDto.getCategoryRequestDto().getName()
+        );
+        if (categoryOptional.isEmpty()){
+            System.out.println("category not found : " + productRequestDto.getCategoryRequestDto().getName());
+            throw new RuntimeException("category not found");
+        }
+        return categoryOptional.get();
+    }
+
+    @Override
+    public Product getProductByProductRequestDto(ProductRequestDto productRequestDtoForControl){
+        Optional<Product> productByProductRequestDto = productSet.stream()
+                .filter(product -> product.getName().equals(productRequestDtoForControl.getName()))
+                .filter(product -> product.getAuthor().getUser().getName().equals(productRequestDtoForControl.getAuthorRequestDto().getUserRequestDto().getName()))
+                .filter(product -> product.getPublisher().getName().equals(productRequestDtoForControl.getPublisherRequestDto().getName()))
+                .filter(product -> product.getCategory().getName().equals(productRequestDtoForControl.getCategoryRequestDto().getName()))
+                .findFirst();
+        if (productByProductRequestDto.isEmpty()){
+            throw new RuntimeException("product not found!");
+        }
+        return productByProductRequestDto.get();
     }
 
     private ProductResponseDto getProductResponseDto(Product product) {
@@ -84,12 +126,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     private AuthorResponseDto getAuthorResponseDto(Product product){
+        UserResponseDto userResponseDto = userRepository.getUserResponseDto(product.getAuthor().getUser());
         AuthorResponseDto authorResponseDto = new AuthorResponseDto();
-        authorResponseDto.setName(product.getAuthor().getName());
-        authorResponseDto.setSurname(product.getAuthor().getSurname());
-        authorResponseDto.setEmail(product.getAuthor().getEmail());
+        authorResponseDto.setUserResponseDto(userResponseDto);
         authorResponseDto.setBio(product.getAuthor().getBio());
         authorResponseDto.setBooks(product.getAuthor().getBooks());
         return authorResponseDto;
     }
+
 }

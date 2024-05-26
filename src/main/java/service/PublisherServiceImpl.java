@@ -2,17 +2,17 @@ package service;
 
 import dto.PublisherRequestDto;
 import dto.PublisherResponseDto;
-import model.Publisher;
+import factory.repository.PublisherRepositoryFactory;
+import model.enums.RepositoryType;
 import repository.PublisherRepository;
-import repository.PublisherRepositoryImpl;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public class PublisherServiceImpl implements PublisherService {
 
-    private PublisherRepository publisherRepository = new PublisherRepositoryImpl();
+    private PublisherRepositoryFactory publisherRepositoryFactory = new PublisherRepositoryFactory();
+    private PublisherRepository publisherRepository = publisherRepositoryFactory.getBaseRepository(RepositoryType.PUBLISHER);
 
     @Override
     public void save(PublisherRequestDto publisherRequestDto) {
@@ -31,4 +31,5 @@ public class PublisherServiceImpl implements PublisherService {
                 .filter(publisherResponseDto -> publisherResponseDto.getName().equals(publisherName))
                 .findFirst();
     }
+
 }

@@ -1,31 +1,33 @@
 package model;
 
 import model.enums.OrderStatus;
-import model.factory.Product;
+import factory.model.Product;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order {
 
-    private LocalDateTime createDate;
+    private LocalDateTime createDateTime;
     private List<Product> productList;
     private String orderCode;
     private OrderStatus orderStatus;
+    private Customer customer;
 
-    public Order(List<Product> productList, String orderCode) {
-        this.createDate = LocalDateTime.now();
+    public Order(List<Product> productList, String orderCode, Customer customer) {
+        this.createDateTime = LocalDateTime.now();
         this.productList = productList;
         this.orderCode = orderCode;
+        this.customer = customer;
         this.orderStatus = OrderStatus.INITIAL;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public LocalDateTime getCreateDateTime() {
+        return createDateTime;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+    public void setCreateDateTime(LocalDateTime createDateTime) {
+        this.createDateTime = createDateTime;
     }
 
     public List<Product> getProductList() {
@@ -52,13 +54,22 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
-                "createDate=" + createDate +
+                "createDateTime=" + createDateTime +
                 ", productList=" + productList +
                 ", orderCode='" + orderCode + '\'' +
                 ", orderStatus=" + orderStatus +
+                ", customer=" + customer +
                 '}';
     }
 }

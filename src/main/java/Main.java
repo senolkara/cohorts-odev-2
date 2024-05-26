@@ -1,15 +1,12 @@
-import dto.AuthorRequestDto;
-import dto.CustomerRequestDto;
-import dto.ProductRequestDto;
-import dto.PublisherRequestDto;
-import model.Order;
+import dto.*;
+import factory.GenerateRandomUnique;
+import factory.service.*;
 import model.enums.AccountType;
 import model.enums.ProductType;
+import model.enums.ServiceType;
 import service.*;
 
 import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,42 +15,90 @@ public class Main {
 
     public static void main(String[] args) {
 
-        List<CustomerRequestDto> customerRequestDtoList = new ArrayList<>();
+        List<UserRequestDto> userRequestDtoList = new ArrayList<>();
+        UserRequestDto userRequestDto1 = new UserRequestDto();
+        userRequestDto1.setName("cem");
+        userRequestDto1.setSurname("dırman");
+        userRequestDto1.setEmail("cemdirman@gmail.com");
+        userRequestDto1.setPhoneNumber("05051234567");
+        userRequestDto1.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDtoList.add(userRequestDto1);
 
+        UserRequestDto userRequestDto2 = new UserRequestDto();
+        userRequestDto2.setName("senol");
+        userRequestDto2.setSurname("karakurt");
+        userRequestDto2.setEmail("senolkarakurt@gmail.com");
+        userRequestDto2.setPhoneNumber("05051234567");
+        userRequestDto2.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDtoList.add(userRequestDto2);
+
+        UserRequestDto userRequestDto3 = new UserRequestDto();
+        userRequestDto3.setName("ahmet");
+        userRequestDto3.setSurname("daşdelen");
+        userRequestDto3.setEmail("ahmetdasdelen@gmail.com");
+        userRequestDto3.setPhoneNumber("05051234567");
+        userRequestDto3.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDtoList.add(userRequestDto3);
+
+        UserRequestDto userRequestDto4 = new UserRequestDto();
+        userRequestDto4.setName("AHMET HAMDİ");
+        userRequestDto4.setSurname("TANPINAR");
+        userRequestDto4.setEmail("ahmethamditanpinar@gmail.com");
+        userRequestDto4.setPhoneNumber("05051234567");
+        userRequestDto4.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDtoList.add(userRequestDto4);
+
+        UserRequestDto userRequestDto5 = new UserRequestDto();
+        userRequestDto5.setName("MURAT");
+        userRequestDto5.setSurname("TAŞKIRAN");
+        userRequestDto5.setEmail("murattaskiran@gmail.com");
+        userRequestDto5.setPhoneNumber("05051234567");
+        userRequestDto5.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDtoList.add(userRequestDto5);
+
+        UserRequestDto userRequestDto6 = new UserRequestDto();
+        userRequestDto6.setName("MEHMET");
+        userRequestDto6.setSurname("BAKIR");
+        userRequestDto6.setEmail("mehmetbakir@gmail.com");
+        userRequestDto6.setPhoneNumber("05051234567");
+        userRequestDto6.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDtoList.add(userRequestDto6);
+
+        UserServiceFactory userServiceFactory = new UserServiceFactory();
+        UserService userService = userServiceFactory.getBaseService(ServiceType.USER);
+        if (userService == null){
+            throw new RuntimeException("user service not found");
+        }
+        userRequestDtoList.forEach(userService::save);
+
+        System.out.println("\nUSER LIST\n");
+        userService.getAll().forEach(System.out::println);
+        System.out.println("\n--------------\n");
+
+        List<CustomerRequestDto> customerRequestDtoList = new ArrayList<>();
         CustomerRequestDto customerRequestDto1 = new CustomerRequestDto();
-        customerRequestDto1.setName("cem");
-        customerRequestDto1.setSurname("dırman");
-        customerRequestDto1.setEmail("cem@gmail.com");
-        customerRequestDto1.setPhoneNumber("05051234567");
-        customerRequestDto1.setPassword(createRandomHash("987654321"));
+        customerRequestDto1.setUserRequestDto(userRequestDto1);
         customerRequestDto1.setCredit(0);
         customerRequestDto1.setAccountType(AccountType.STANDARD);
-
         customerRequestDtoList.add(customerRequestDto1);
 
         CustomerRequestDto customerRequestDto2 = new CustomerRequestDto();
-        customerRequestDto2.setName("senol");
-        customerRequestDto2.setSurname("karakurt");
-        customerRequestDto2.setEmail("senol@gmail.com");
-        customerRequestDto2.setPhoneNumber("05051234567");
-        customerRequestDto2.setPassword(createRandomHash("987654321"));
+        customerRequestDto2.setUserRequestDto(userRequestDto2);
         customerRequestDto2.setCredit(0);
         customerRequestDto2.setAccountType(AccountType.STANDARD);
-
         customerRequestDtoList.add(customerRequestDto2);
 
         CustomerRequestDto customerRequestDto3 = new CustomerRequestDto();
-        customerRequestDto3.setName("ahmet");
-        customerRequestDto3.setSurname("daşdelen");
-        customerRequestDto3.setEmail("ahmet@gmail.com");
-        customerRequestDto3.setPhoneNumber("05051234567");
-        customerRequestDto3.setPassword(createRandomHash("987654321"));
+        customerRequestDto3.setUserRequestDto(userRequestDto3);
         customerRequestDto3.setCredit(0);
         customerRequestDto3.setAccountType(AccountType.STANDARD);
-
         customerRequestDtoList.add(customerRequestDto3);
 
-        CustomerService customerService = new CustomerServiceImpl();
+        CustomerServiceFactory customerServiceFactory = new CustomerServiceFactory();
+        CustomerService customerService = customerServiceFactory.getBaseService(ServiceType.CUSTOMER);
+        if (customerService == null){
+            throw new RuntimeException("customer service not found");
+        }
         customerRequestDtoList.forEach(customerService::save);
 
         System.out.println("\nCUSTOMER LIST\n");
@@ -65,16 +110,23 @@ public class Main {
         PublisherRequestDto publisherRequestDto1 = new PublisherRequestDto();
         publisherRequestDto1.setName("DERGAH YAYINLARI");
         publisherRequestDto1.setCreateDate(LocalDate.now().minusYears(1));
-
         publisherRequestDtoList.add(publisherRequestDto1);
 
         PublisherRequestDto publisherRequestDto2 = new PublisherRequestDto();
         publisherRequestDto2.setName("CAN YAYINLARI");
         publisherRequestDto2.setCreateDate(LocalDate.now().minusYears(10));
-
         publisherRequestDtoList.add(publisherRequestDto2);
 
-        PublisherService publisherService = new PublisherServiceImpl();
+        PublisherRequestDto publisherRequestDto3 = new PublisherRequestDto();
+        publisherRequestDto3.setName("EMEK YAYINLARI");
+        publisherRequestDto3.setCreateDate(LocalDate.now().minusYears(5));
+        publisherRequestDtoList.add(publisherRequestDto3);
+
+        PublisherServiceFactory publisherServiceFactory = new PublisherServiceFactory();
+        PublisherService publisherService = publisherServiceFactory.getBaseService(ServiceType.PUBLISHER);
+        if (publisherService == null){
+            throw new RuntimeException("publisher service not found");
+        }
         publisherRequestDtoList.forEach(publisherService::save);
 
         System.out.println("\nPUBLISHER LIST\n");
@@ -83,26 +135,23 @@ public class Main {
         System.out.println(publisherService.hashCode());
 
         List<AuthorRequestDto> authorRequestDtoList = new ArrayList<>();
-
         AuthorRequestDto authorRequestDto1 = new AuthorRequestDto();
-        authorRequestDto1.setName("AHMET HAMDİ");
-        authorRequestDto1.setSurname("TANPINAR");
-        authorRequestDto1.setEmail("ahmethamdi@gmail.com");
+        authorRequestDto1.setUserRequestDto(userRequestDto4);
         authorRequestDtoList.add(authorRequestDto1);
 
         AuthorRequestDto authorRequestDto2 = new AuthorRequestDto();
-        authorRequestDto2.setName("MURAT");
-        authorRequestDto2.setSurname("TAŞKIRAN");
-        authorRequestDto2.setEmail("murat@gmail.com");
+        authorRequestDto2.setUserRequestDto(userRequestDto5);
         authorRequestDtoList.add(authorRequestDto2);
 
         AuthorRequestDto authorRequestDto3 = new AuthorRequestDto();
-        authorRequestDto3.setName("OSMAN");
-        authorRequestDto3.setSurname("BARDAK");
-        authorRequestDto3.setEmail("murat@gmail.com");
+        authorRequestDto3.setUserRequestDto(userRequestDto6);
         authorRequestDtoList.add(authorRequestDto3);
 
-        AuthorService authorService = new AuthorServiceImpl();
+        AuthorServiceFactory authorServiceFactory = new AuthorServiceFactory();
+        AuthorService authorService = authorServiceFactory.getBaseService(ServiceType.AUTHOR);
+        if (authorService == null){
+            throw new RuntimeException("author service not found");
+        }
         authorRequestDtoList.forEach(authorService::save);
 
         System.out.println("\nAUTHOR LIST\n");
@@ -110,131 +159,107 @@ public class Main {
         System.out.println("\n--------------\n");
         System.out.println(authorService.hashCode());
 
+        List<CategoryRequestDto> categoryRequestDtoList = new ArrayList<>();
+        CategoryRequestDto categoryRequestDto1 = new CategoryRequestDto();
+        categoryRequestDto1.setName("HIKAYE");
+        categoryRequestDto1.setDescription("Hikaye kategorisidir");
+        categoryRequestDtoList.add(categoryRequestDto1);
+
+        CategoryRequestDto categoryRequestDto2 = new CategoryRequestDto();
+        categoryRequestDto2.setName("ROMAN");
+        categoryRequestDto2.setDescription("Roman kategorisidir");
+        categoryRequestDtoList.add(categoryRequestDto2);
+
+        CategoryRequestDto categoryRequestDto3 = new CategoryRequestDto();
+        categoryRequestDto3.setName("BILIM");
+        categoryRequestDto3.setDescription("Bilim kategorisidir");
+        categoryRequestDtoList.add(categoryRequestDto3);
+
+        CategoryServiceFactory categoryServiceFactory = new CategoryServiceFactory();
+        CategoryService categoryService = categoryServiceFactory.getBaseService(ServiceType.CATEGORY);
+        if (categoryService == null){
+            throw new RuntimeException("category service not found");
+        }
+        categoryRequestDtoList.forEach(categoryService::save);
+
+        System.out.println("\nCATEGORY LIST\n");
+        categoryService.getAll().forEach(System.out::println);
+        System.out.println("\n--------------\n");
 
         List<ProductRequestDto> productRequestDtoList = new ArrayList<>();
         ProductRequestDto productRequestDto1 = new ProductRequestDto();
         productRequestDto1.setName("Şeker Portakalı");
         productRequestDto1.setAmount(new BigDecimal("190.20"));
+        productRequestDto1.setProductType(ProductType.BOOK);
+        productRequestDto1.setCategoryRequestDto(categoryRequestDto1);
+        productRequestDto1.setStock(100);
+        productRequestDto1.setPublisherRequestDto(publisherRequestDto1);
+        productRequestDto1.setAuthorRequestDto(authorRequestDto1);
         productRequestDto1.setDescription("Ne güzel bir şeker portakalı fidanıymış bu! " +
                 "Hem bak, dikeni de yok. Pek de kişilik sahibiymiş, şeker portakalı olduğu " +
                 "ta uzaktan belli. Ben senin boyunda olsaydım başka şey istemezdim.”\n" +
                 "“Ama ben büyük bir ağaç istiyordum.");
-        productRequestDto1.setProductType(ProductType.BOOK);
-
-        PublisherRequestDto publisherRequestDtoForProductRequestDto1 = new PublisherRequestDto();
-        publisherRequestDtoForProductRequestDto1.setName("CAN YAYINLARI");
-        publisherRequestDtoForProductRequestDto1.setCreateDate(LocalDate.now().minusYears(10));
-
-        productRequestDto1.setPublisherRequestDto(publisherRequestDtoForProductRequestDto1);
-
-        AuthorRequestDto authorRequestDtoDtoForProductRequestDto1 = new AuthorRequestDto();
-        authorRequestDtoDtoForProductRequestDto1.setName("AHMET HAMDİ");
-        authorRequestDtoDtoForProductRequestDto1.setSurname("TANPINAR");
-        authorRequestDtoDtoForProductRequestDto1.setEmail("ahmethamdi@gmail.com");
-
-        productRequestDto1.setAuthorRequestDto(authorRequestDtoDtoForProductRequestDto1);
-
         productRequestDtoList.add(productRequestDto1);
-
 
 
         ProductRequestDto productRequestDto2 = new ProductRequestDto();
         productRequestDto2.setName("Saatleri Ayarlama Enstitüsü");
         productRequestDto2.setAmount(new BigDecimal("90.20"));
+        productRequestDto2.setProductType(ProductType.BOOK);
+        productRequestDto2.setCategoryRequestDto(categoryRequestDto2);
+        productRequestDto2.setStock(200);
+        productRequestDto2.setPublisherRequestDto(publisherRequestDto2);
+        productRequestDto2.setAuthorRequestDto(authorRequestDto2);
         productRequestDto2.setDescription("Ne güzel bir şeker portakalı fidanıymış bu! " +
                 "Hem bak, dikeni de yok. Pek de kişilik sahibiymiş, şeker portakalı olduğu " +
                 "ta uzaktan belli. Ben senin boyunda olsaydım başka şey istemezdim.”\n" +
                 "“Ama ben büyük bir ağaç istiyordum.");
-        productRequestDto2.setProductType(ProductType.BOOK);
-
-        PublisherRequestDto publisherRequestDtoForProductRequestDto2 = new PublisherRequestDto();
-        publisherRequestDtoForProductRequestDto2.setName("CAN YAYINLARI");
-        publisherRequestDtoForProductRequestDto2.setCreateDate(LocalDate.now().minusYears(10));
-
-        productRequestDto2.setPublisherRequestDto(publisherRequestDtoForProductRequestDto2);
-
-        AuthorRequestDto authorRequestDtoDtoForProductRequestDto2 = new AuthorRequestDto();
-        authorRequestDtoDtoForProductRequestDto2.setName("MURAT");
-        authorRequestDtoDtoForProductRequestDto2.setSurname("TAŞKIRAN");
-        authorRequestDtoDtoForProductRequestDto2.setEmail("murat@gmail.com");
-
-        productRequestDto2.setAuthorRequestDto(authorRequestDtoDtoForProductRequestDto2);
         productRequestDtoList.add(productRequestDto2);
 
 
         ProductRequestDto productRequestDto3 = new ProductRequestDto();
         productRequestDto3.setName("Küçük Prens");
         productRequestDto3.setAmount(new BigDecimal("240"));
+        productRequestDto3.setProductType(ProductType.JOURNAL);
+        productRequestDto3.setCategoryRequestDto(categoryRequestDto3);
+        productRequestDto3.setStock(300);
+        productRequestDto3.setPublisherRequestDto(publisherRequestDto3);
+        productRequestDto3.setAuthorRequestDto(authorRequestDto3);
         productRequestDto3.setDescription("Ne güzel bir şeker portakalı fidanıymış bu! " +
                 "Hem bak, dikeni de yok. Pek de kişilik sahibiymiş, şeker portakalı olduğu " +
                 "ta uzaktan belli. Ben senin boyunda olsaydım başka şey istemezdim.”\n" +
                 "“Ama ben büyük bir ağaç istiyordum.");
-        productRequestDto3.setProductType(ProductType.JOURNAL);
-
-        PublisherRequestDto publisherRequestDtoForProductRequestDto3 = new PublisherRequestDto();
-        publisherRequestDtoForProductRequestDto3.setName("DERGAH YAYINLARI");
-        publisherRequestDtoForProductRequestDto3.setCreateDate(LocalDate.now().minusYears(10));
-
-        productRequestDto3.setPublisherRequestDto(publisherRequestDtoForProductRequestDto3);
-
-        AuthorRequestDto authorRequestDtoDtoForProductRequestDto3 = new AuthorRequestDto();
-        authorRequestDtoDtoForProductRequestDto3.setName("OSMAN");
-        authorRequestDtoDtoForProductRequestDto3.setSurname("BARDAK");
-        authorRequestDtoDtoForProductRequestDto3.setEmail("murat@gmail.com");
-
-        productRequestDto3.setAuthorRequestDto(authorRequestDtoDtoForProductRequestDto3);
         productRequestDtoList.add(productRequestDto3);
 
         ProductService productService = new ProductServiceImpl(publisherService, authorService);
-
-        System.out.println("\nPRODUCT LIST\n");
         productRequestDtoList.forEach(productService::save);
 
-        productService.listAll();
+        System.out.println("\nPRODUCT LIST\n");
+        productService.getAll().forEach(System.out::println);
+        System.out.println("\n--------------\n");
 
-        //System.out.println("\n ORDER LIST \n");
+        List<OrderRequestDto> orderRequestDtoList = new ArrayList<>();
+        OrderRequestDto orderRequestDto = new OrderRequestDto();
+        orderRequestDto.setProductRequestDtoList(productRequestDtoList);
+        orderRequestDto.setCustomerRequestDto(customerRequestDto1);
+        orderRequestDtoList.add(orderRequestDto);
 
-        //customer1.setOrderList(List.of(prepareOrder(List.of(product1, product2)))); çözüm 1
+        List<CustomerRequestDto> customerRequestDtoListForOrder = new ArrayList<>();
+        CustomerRequestDto customerRequestDto1ForOrder = new CustomerRequestDto();
+        customerRequestDto1ForOrder.setUserRequestDto(userRequestDto1);
+        customerRequestDto1ForOrder.setOrderRequestDtoList(orderRequestDtoList);
+        customerRequestDtoListForOrder.add(customerRequestDto1ForOrder);
 
-        // customer1.getOrderList().add(prepareOrder(List.of(product1, product2))); // çözüm 2
-
-        // ödev email adresi verilen kullanıcının orderlerini getiren method
-        //  listOrdersByEmail("cem@gmail.com");
-    }
-
-    /* ödev OrderService oluşturulacak
-    private static void listOrdersByEmail(String email) {
-        List<Order> orderList = customerList.stream()
-                .filter(customer -> customer.getEmail().equals(email))
-                .flatMap(customer -> customer.getOrderList().stream())
-                .toList();
-
-        orderList.forEach(System.out::println);
-    }
-
-     */
-
-//    private static Order prepareOrder(List<Product> productList) {
-//        //Order order = new Order(); tercih etmiyoruz. çünkü direkt dönüş yapıyoruz.
-//        return new Order(productList, "order123");
-//    }
-
-    private static String createRandomHash(String str){
-        String generated = null;
-        try
-        {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(str.getBytes());
-            byte[] bytes = md.digest();
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < bytes.length; i++) {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            generated = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        OrderServiceFactory orderServiceFactory = new OrderServiceFactory();
+        OrderService orderService = orderServiceFactory.getBaseService(ServiceType.ORDER);
+        if (orderService == null){
+            throw new RuntimeException("order service not found");
         }
-        return generated;
-    }
+        customerRequestDtoListForOrder.forEach(orderService::save);
 
+        System.out.println("\nORDER LIST\n");
+        orderService.getAll().forEach(System.out::println);
+        System.out.println("\n--------------\n");
+
+    }
 }

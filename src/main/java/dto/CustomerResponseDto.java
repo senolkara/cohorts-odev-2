@@ -1,7 +1,6 @@
 package dto;
 
 import model.Address;
-import model.Order;
 import model.enums.AccountType;
 
 import java.util.ArrayList;
@@ -9,38 +8,18 @@ import java.util.List;
 import java.util.Set;
 
 public class CustomerResponseDto {
-    private String name;
-    private String surname;
-    private String email;
+    private UserResponseDto userResponseDto;
     private Integer credit;
-    private String phoneNumber;
     private Set<Address> addresses;
-    private Boolean isActive;
     private AccountType accountType;
-    private List<Order> orderList = new ArrayList<>();
+    private List<OrderResponseDto> orderResponseDtoList;
 
-    public String getName() {
-        return name;
+    public UserResponseDto getUserResponseDto() {
+        return userResponseDto;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserResponseDto(UserResponseDto userResponseDto) {
+        this.userResponseDto = userResponseDto;
     }
 
     public Integer getCredit() {
@@ -51,28 +30,12 @@ public class CustomerResponseDto {
         this.credit = credit;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public Set<Address> getAddresses() {
         return addresses;
     }
 
     public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
-    }
-
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
     }
 
     public AccountType getAccountType() {
@@ -83,11 +46,14 @@ public class CustomerResponseDto {
         this.accountType = accountType;
     }
 
-    public List<Order> getOrderList() {
-        return orderList;
+    public List<OrderResponseDto> getOrderResponseDtoList() {
+        if (orderResponseDtoList ==  null) {
+            return new ArrayList<>();
+        }
+        return orderResponseDtoList;
     }
 
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
+    public void setOrderResponseDtoList(List<OrderResponseDto> orderResponseDtoList) {
+        this.orderResponseDtoList = orderResponseDtoList;
     }
 }

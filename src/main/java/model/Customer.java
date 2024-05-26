@@ -6,79 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class Customer {
+public class Customer extends User {
 
-    private String name;
-    private String surname;
-    private String email;
-    private String password;
-    private String phoneNumber;
-    private Boolean isActive;
+    private User user;
     private Integer credit;
     private Set<Address> addresses;
     private AccountType accountType;
-    private List<Order> orderList = new ArrayList<>();
-
-    /**
-     * boş constructor ile customer objesi oluşturulmamalı
-     */
-    private Customer() {
-
-    }
+    private List<Order> orderList;
 
     public Customer(String name, String surname, String email, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.isActive = true;
+        super(name, surname, email, password);
         this.accountType = AccountType.STANDARD;
     }
 
-    public Customer(String name, String surname, String email, String password, Integer credit,
-                    String phoneNumber, Set<Address> addresses, List<Order> orderList) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.credit = credit;
-        this.phoneNumber = phoneNumber;
-        this.addresses = addresses;
-        this.orderList = orderList;
-        this.isActive = true;
-        this.accountType = AccountType.STANDARD;
+    public User getUser() {
+        return user;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getCredit() {
@@ -89,28 +35,12 @@ public class Customer {
         this.credit = credit;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public Set<Address> getAddresses() {
         return addresses;
     }
 
     public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
-    }
-
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
     }
 
     public AccountType getAccountType() {
@@ -132,17 +62,5 @@ public class Customer {
         this.orderList = orderList;
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", credit=" + credit +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", isActive=" + isActive +
-                ", accountType=" + accountType +
-                '}';
-    }
+
 }

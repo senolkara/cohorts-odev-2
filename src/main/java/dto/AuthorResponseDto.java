@@ -5,34 +5,16 @@ import model.Book;
 import java.util.Set;
 
 public class AuthorResponseDto {
-    private String name;
-    private String surname;
-    private String email;
+    private UserResponseDto userResponseDto;
     private String bio;
     private Set<Book> books;
 
-    public String getName() {
-        return name;
+    public UserResponseDto getUserResponseDto() {
+        return userResponseDto;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserResponseDto(UserResponseDto userResponseDto) {
+        this.userResponseDto = userResponseDto;
     }
 
     public String getBio() {

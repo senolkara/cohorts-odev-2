@@ -11,6 +11,8 @@ public class ProductResponseDto {
     private PublisherResponseDto publisherResponseDto;
     private AuthorResponseDto authorResponseDto;
     private ProductType productType;
+    private CategoryResponseDto categoryResponseDto;
+    private Integer stock;
 
     public String getName() {
         return name;
@@ -58,5 +60,21 @@ public class ProductResponseDto {
 
     public void setProductType(ProductType productType) {
         this.productType = productType;
+    }
+
+    public CategoryResponseDto getCategoryResponseDto() {
+        return categoryResponseDto;
+    }
+
+    public void setCategoryResponseDto(CategoryResponseDto categoryResponseDto) {
+        this.categoryResponseDto = categoryResponseDto;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 }

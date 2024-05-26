@@ -1,7 +1,7 @@
 package model;
 
 import model.enums.ProductType;
-import model.factory.Product;
+import factory.model.Product;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -13,14 +13,18 @@ public class Book implements Product {
     private String description;
     private Publisher publisher;
     private Author author;
+    private Category category;
+    private Integer stock;
 
-    public Book(ProductType productType, String name, BigDecimal amount, String description, Publisher publisher, Author author) {
+    public Book(ProductType productType, String name, BigDecimal amount, String description, Publisher publisher, Author author, Category category, Integer stock) {
         this.productType = productType;
         this.name = name;
         this.amount = amount;
         this.description = description;
         this.publisher = publisher;
         this.author = author;
+        this.category = category;
+        this.stock = stock;
     }
 
     @Override
@@ -78,6 +82,24 @@ public class Book implements Product {
     }
 
     @Override
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    @Override
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    @Override
     public String toString() {
         return "Book{" +
                 "productType=" + productType +
@@ -86,6 +108,8 @@ public class Book implements Product {
                 ", description='" + description + '\'' +
                 ", publisher=" + publisher +
                 ", author=" + author +
+                ", category=" + category +
+                ", stock=" + stock +
                 '}';
     }
 
@@ -94,11 +118,11 @@ public class Book implements Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return productType == book.productType && Objects.equals(name, book.name) && Objects.equals(amount, book.amount) && Objects.equals(description, book.description) && Objects.equals(publisher, book.publisher) && Objects.equals(author, book.author);
+        return productType == book.productType && Objects.equals(name, book.name) && Objects.equals(amount, book.amount) && Objects.equals(description, book.description) && Objects.equals(publisher, book.publisher) && Objects.equals(author, book.author) && Objects.equals(category, book.category) && Objects.equals(stock, book.stock);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productType, name, amount, description, publisher, author);
+        return Objects.hash(productType, name, amount, description, publisher, author, category, stock);
     }
 }

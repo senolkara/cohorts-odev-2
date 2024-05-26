@@ -11,6 +11,8 @@ public class ProductRequestDto {
     private PublisherRequestDto publisherRequestDto;
     private AuthorRequestDto authorRequestDto;
     private ProductType productType;
+    private CategoryRequestDto categoryRequestDto;
+    private Integer stock;
 
     public String getName() {
         return name;
@@ -58,5 +60,21 @@ public class ProductRequestDto {
 
     public void setProductType(ProductType productType) {
         this.productType = productType;
+    }
+
+    public CategoryRequestDto getCategoryRequestDto() {
+        return categoryRequestDto;
+    }
+
+    public void setCategoryRequestDto(CategoryRequestDto categoryRequestDto) {
+        this.categoryRequestDto = categoryRequestDto;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 }

@@ -3,6 +3,9 @@ package service;
 import dto.AuthorRequestDto;
 import dto.AuthorResponseDto;
 import dto.PublisherResponseDto;
+import factory.repository.AuthorRepositoryFactory;
+import model.enums.RepositoryType;
+import model.enums.ServiceType;
 import repository.AuthorRepository;
 import repository.AuthorRepositoryImpl;
 
@@ -11,7 +14,8 @@ import java.util.Optional;
 
 public class AuthorServiceImpl implements AuthorService {
 
-    private AuthorRepository authorRepository = new AuthorRepositoryImpl();
+    private AuthorRepositoryFactory authorRepositoryFactory = new AuthorRepositoryFactory();
+    private AuthorRepository authorRepository = authorRepositoryFactory.getBaseRepository(RepositoryType.AUTHOR);
 
     @Override
     public void save(AuthorRequestDto authorRequestDto) {
@@ -26,7 +30,8 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Optional<AuthorResponseDto> getByName(String authorName) {
         return getAll().stream()
-                .filter(authorResponseDto -> authorResponseDto.getName().equals(authorName))
+                .filter(authorResponseDto -> authorResponseDto.getUserResponseDto().getName().equals(authorName))
                 .findFirst();
     }
+
 }

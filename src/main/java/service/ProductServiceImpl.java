@@ -4,13 +4,16 @@ import dto.AuthorResponseDto;
 import dto.ProductRequestDto;
 import dto.ProductResponseDto;
 import dto.PublisherResponseDto;
+import factory.repository.ProductRepositoryFactory;
+import model.enums.RepositoryType;
 import repository.*;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ProductServiceImpl implements ProductService {
-    private ProductRepository productRepository = new ProductRepositoryImpl();
+    private ProductRepositoryFactory productRepositoryFactory = new ProductRepositoryFactory();
+    private ProductRepository productRepository = productRepositoryFactory.getBaseRepository(RepositoryType.PRODUCT);
     private PublisherService publisherService;
     private AuthorService authorService;
 
@@ -21,9 +24,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void save(ProductRequestDto productRequestDto) {
-        System.out.println(publisherService.hashCode());
         controlPublisherByProductRequestDto(productRequestDto);
         controlAuthorByProductRequestDto(productRequestDto);
+        controlProductIsRegisteredByProductRequestDto(productRequestDto);
         productRepository.save(productRequestDto);
         System.out.println("Product Service: saved -> " + productRequestDto.getName());
     }
@@ -51,10 +54,24 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void controlAuthorByProductRequestDto(ProductRequestDto productRequestDto){
-        Optional<AuthorResponseDto> AuthorResponseDtoByName = authorService.getByName(productRequestDto.getAuthorRequestDto().getName());
-        if (AuthorResponseDtoByName.isEmpty()){
-            System.out.println("author not found : " + productRequestDto.getAuthorRequestDto().getName());
+        Optional<AuthorResponseDto> authorResponseDtoByName = authorService.getByName(productRequestDto.getAuthorRequestDto().getUserRequestDto().getName());
+        if (authorResponseDtoByName.isEmpty()){
+            System.out.println("author not found : " + productRequestDto.getAuthorRequestDto().getUserRequestDto().getName());
             throw new RuntimeException("author not found");
         }
     }
+
+    @Override
+    public void controlProductIsRegisteredByProductRequestDto(ProductRequestDto productRequestDtoForControl) {
+        Optional<ProductResponseDto> productResponseDtoByOptional = getAll().stream()
+                .filter(productResponseDto -> productResponseDto.getName().equals(productRequestDtoForControl.getName()))
+                .filter(productResponseDto -> productResponseDto.getAuthorResponseDto().getUserResponseDto().getName().equals(productRequestDtoForControl.getAuthorRequestDto().getUserRequestDto().getName()))
+                .filter(productResponseDto -> productResponseDto.getPublisherResponseDto().getName().equals(productRequestDtoForControl.getPublisherRequestDto().getName()))
+                .filter(productResponseDto -> productResponseDto.getCategoryResponseDto().getName().equals(productRequestDtoForControl.getCategoryRequestDto().getName()))
+                .findFirst();
+        if (productResponseDtoByOptional.isPresent()){
+            throw new RuntimeException("product is registered!");
+        }
+    }
+
 }

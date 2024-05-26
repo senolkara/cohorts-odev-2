@@ -2,45 +2,21 @@ package dto;
 
 import model.enums.AccountType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CustomerRequestDto {
-    private String name;
-    private String surname;
-    private String email;
-    private String password;
+    private UserRequestDto userRequestDto;
     private Integer credit;
-    private String phoneNumber;
     private AccountType accountType;
+    private List<OrderRequestDto> orderRequestDtoList;
 
-    public String getName() {
-        return name;
+    public UserRequestDto getUserRequestDto() {
+        return userRequestDto;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserRequestDto(UserRequestDto userRequestDto) {
+        this.userRequestDto = userRequestDto;
     }
 
     public Integer getCredit() {
@@ -51,19 +27,22 @@ public class CustomerRequestDto {
         this.credit = credit;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public AccountType getAccountType() {
         return accountType;
     }
 
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
+    }
+
+    public List<OrderRequestDto> getOrderRequestDtoList() {
+        if (orderRequestDtoList ==  null) {
+            return new ArrayList<>();
+        }
+        return orderRequestDtoList;
+    }
+
+    public void setOrderRequestDtoList(List<OrderRequestDto> orderRequestDtoList) {
+        this.orderRequestDtoList = orderRequestDtoList;
     }
 }

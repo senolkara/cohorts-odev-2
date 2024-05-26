@@ -2,43 +2,22 @@ package model;
 
 import java.util.Set;
 
-public class Author {
+public class Author extends User {
 
-    private String name;
-    private String surname;
-    private String email;
+    private User user;
     private String bio;
     private Set<Book> books;
 
-    public Author(String name, String surname, String email, String bio) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.bio = bio;
+    public Author(String name, String surname, String email, String password) {
+        super(name, surname, email, password);
     }
 
-    public String getName() {
-        return name;
+    public User getUser() {
+        return user;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getBio() {
@@ -60,9 +39,7 @@ public class Author {
     @Override
     public String toString() {
         return "Author{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
+                "user=" + user +
                 ", bio='" + bio + '\'' +
                 ", books=" + books +
                 '}';
