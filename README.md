@@ -48,7 +48,7 @@ Yukarıdaki frameworklerin dışında Google Web toolkit (GWT), Apache Hadoop, M
 
 # Cevap2
 
-## SOA (Service Oriented Architecture
+## SOA (Service Oriented Architecture)
 Servis odaklı mimari adıyla anılır. İş uygulamaları oluşturmak için services adı verilen yazılım bileşenlerini kullanan bir yazılım geliştirme yöntemidir. Her hizmet, bir iş özelliği sunar ve hizmetler, farklı platform ve diller arasında birbiriyle iletişim de kurabilir. Geliştiriciler, hizmetleri farklı sistemlerde yeniden kullanmak veya birkaç bağımsız hizmeti karmaşık görevleri gerçekleştirmek amacıyla birleştirmek için hizmet odaklı mimariyi kullanır.
 Bu mimaride Service, Policies, Endpoints, Contracts, Messages, Service Consumer gibi bileşenler kullanılır.
 
