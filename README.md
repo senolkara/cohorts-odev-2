@@ -66,7 +66,7 @@ Belirli bir kaynaktan veri istemek için kullanılır.
 Bir kaynak oluşturmak/güncellemek için bir belirli bir kaynağa veri göndermek için kullanılır.
 
 ### PUT
-Bir kaynak oluşturmak/güncellemek için bir sunucuya veri göndermek için kullanılır. POST ve PUT arasındaki fark, PUT isteklerinin önemsiz olmasıdır. Yani, aynı PUT isteğini birden çok kez çağırmak her zaman aynı sonucu verir. Buna karşılık, bir POST isteğini art arda çağırmak, aynı kaynağı birden çok kez oluşturmanın yan etkilerine sahiptir.
+Bir kaynak oluşturmak/güncellemek için bir belirli bir kaynağa veri göndermek için kullanılır. POST ve PUT arasındaki fark, PUT isteklerinin önemsiz olmasıdır. Yani, aynı PUT isteğini birden çok kez çağırmak her zaman aynı sonucu verir. Buna karşılık, bir POST isteğini art arda çağırmak, aynı kaynağı birden çok kez oluşturmanın yan etkilerine sahiptir.
 
 ### DELETE
 Belirtilen kaynağı siler.
