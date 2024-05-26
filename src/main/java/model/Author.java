@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 public class Author extends User {
@@ -8,8 +9,8 @@ public class Author extends User {
     private String bio;
     private Set<Book> books;
 
-    public Author(String name, String surname, String email, String password) {
-        super(name, surname, email, password);
+    public Author(String name, String surname, String email, String password, String address, LocalDate birthDate) {
+        super(name, surname, email, password, address, birthDate);
     }
 
     public User getUser() {

@@ -7,5 +7,6 @@ public enum RepositoryType {
     PRODUCT,
     PUBLISHER,
     ORDER,
-    CATEGORY
+    CATEGORY,
+    INVOICE
 }

@@ -3,7 +3,6 @@ package service;
 import dto.CustomerRequestDto;
 import dto.CustomerResponseDto;
 import factory.repository.CustomerRepositoryFactory;
-import model.enums.AccountType;
 import model.enums.RepositoryType;
 import repository.CustomerRepository;
 
@@ -37,20 +36,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void changeAccountType(String email, AccountType accountType) {
-
-//        Optional<Customer> foundCustomer = getAll()
-//                .stream()
-//                .filter(customer -> customer.getEmail().equals(email))
-//                .findFirst();
-//
-//        if (foundCustomer.isPresent()) {
-//            foundCustomer.get().setAccountType(accountType);
-//        }
-    }
-
-    public void changeAccountTypeByCredit(String email, AccountType accountType) {
-
+    public void changeAccountType(String email, Integer score) {
+        Optional<CustomerResponseDto> customerResponseDtoOptional = getAll()
+                .stream()
+                .filter(customerResponseDto -> customerResponseDto.getUserResponseDto().getEmail().equals(email))
+                .findFirst();
+        if (customerResponseDtoOptional.isPresent()) {
+            CustomerResponseDto customerResponseDto = customerResponseDtoOptional.get();
+            customerResponseDto.setScore(score);
+            customerRepository.changeAccountType(customerResponseDto);
+        }
+        else{
+            throw new RuntimeException("customer not found");
+        }
     }
 
 }

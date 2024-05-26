@@ -1,11 +1,15 @@
 package dto;
 
+import java.time.LocalDate;
+
 public class UserResponseDto {
     private String name;
     private String surname;
     private String email;
     private String phoneNumber;
     private Boolean isActive;
+    private String address;
+    private LocalDate birthDate;
 
     public String getName() {
         return name;
@@ -45,5 +49,21 @@ public class UserResponseDto {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 }

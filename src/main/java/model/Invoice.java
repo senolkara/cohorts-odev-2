@@ -7,13 +7,11 @@ public class Invoice {
     private BigDecimal totalPrice;
     private Order order;
     private LocalDateTime createDateTime;
-    private Address address;
 
-    public Invoice(BigDecimal totalPrice, Order order, LocalDateTime createDateTime, Address address) {
+    public Invoice(BigDecimal totalPrice, Order order, LocalDateTime createDateTime) {
         this.totalPrice = totalPrice;
         this.order = order;
         this.createDateTime = createDateTime;
-        this.address = address;
     }
 
     public BigDecimal getTotalPrice() {
@@ -40,21 +38,12 @@ public class Invoice {
         this.createDateTime = createDateTime;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     @Override
     public String toString() {
         return "Invoice{" +
                 "totalPrice=" + totalPrice +
                 ", order=" + order +
                 ", createDateTime=" + createDateTime +
-                ", address=" + address +
                 '}';
     }
 }

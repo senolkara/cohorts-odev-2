@@ -1,8 +1,6 @@
 package repository;
 
-import dto.CustomerRequestDto;
-import dto.OrderResponseDto;
-import dto.ProductRequestDto;
+import dto.*;
 import factory.GenerateRandomUnique;
 import factory.model.Product;
 import factory.repository.CustomerRepositoryFactory;
@@ -22,10 +20,11 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     private CustomerRepositoryFactory customerRepositoryFactory = new CustomerRepositoryFactory();
     private CustomerRepository customerRepository = customerRepositoryFactory.getBaseRepository(RepositoryType.CUSTOMER);
+
     private static List<Order> orderList = new ArrayList<>();
 
     @Override
-    public void save(CustomerRequestDto customerRequestDto) {
+    public Order save(CustomerRequestDto customerRequestDto) {
         String orderCode = GenerateRandomUnique.createRandomCode();
         controlIsThereOrderCode(orderCode);
         List<Product> productList = getProductListForOrderByCustomerRequestDto(customerRequestDto);
@@ -36,6 +35,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                 customer
         );
         orderList.add(order);
+        return order;
     }
 
     @Override
@@ -70,12 +70,77 @@ public class OrderRepositoryImpl implements OrderRepository {
         return productList;
     }
 
-    private OrderResponseDto getOrderResponseDto(Order order){
+    @Override
+    public OrderResponseDto getOrderResponseDto(Order order){
+        List<ProductResponseDto> productResponseDtoList = new ArrayList<>();
+        order.getProductList().forEach(product -> {
+            productResponseDtoList.add(productRepository.getProductResponseDto(product));
+        });
+        CustomerResponseDto customerResponseDto = customerRepository.getCustomerResponseDto(
+                order.getCustomer()
+        );
         OrderResponseDto orderResponseDto = new OrderResponseDto();
         orderResponseDto.setCreateDateTime(order.getCreateDateTime());
-        //orderResponseDto.setProductResponseDtoList(order.getProductList());
+        orderResponseDto.setProductResponseDtoList(productResponseDtoList);
         orderResponseDto.setOrderCode(order.getOrderCode());
         orderResponseDto.setOrderStatus(order.getOrderStatus());
+        orderResponseDto.setCustomerResponseDto(customerResponseDto);
         return orderResponseDto;
+    }
+
+    @Override
+    public Order getOrderByOrderRequestDto(OrderRequestDto orderRequestDtoForGet){
+        Optional<Order> orderByOrderRequestDto = orderList.stream()
+                .filter(order -> order
+                        .getCustomer()
+                        .getUser()
+                        .getEmail()
+                        .equals(orderRequestDtoForGet
+                                .getCustomerRequestDto()
+                                .getUserRequestDto()
+                                .getEmail()))
+                .findFirst();
+        if (orderByOrderRequestDto.isEmpty()){
+            throw new RuntimeException("order not found!");
+        }
+        return orderByOrderRequestDto.get();
+    }
+
+    @Override
+    public Order getOrderByCustomerEmail(String email){
+        Optional<Order> orderByCustomerEmail = orderList.stream()
+                .filter(order -> order
+                        .getCustomer()
+                        .getUser()
+                        .getEmail()
+                        .equals(email))
+                .findFirst();
+        if (orderByCustomerEmail.isEmpty()){
+            throw new RuntimeException("order not found!");
+        }
+        return orderByCustomerEmail.get();
+    }
+
+    @Override
+    public OrderRequestDto getOrderRequestDtoWithCustomerRequestDto(Order order, CustomerRequestDto customerRequestDto){
+        List<ProductRequestDto> productRequestDtoList = new ArrayList<>();
+        order.getProductList().forEach(product -> {
+            ProductRequestDto productRequestDto = new ProductRequestDto();
+            productRequestDto.setName(product.getName());
+            productRequestDto.setAmount(product.getAmount());
+            productRequestDtoList.add(productRequestDto);
+        });
+        OrderRequestDto orderRequestDto = new OrderRequestDto();
+        orderRequestDto.setProductRequestDtoList(productRequestDtoList);
+        orderRequestDto.setCustomerRequestDto(customerRequestDto);
+        return orderRequestDto;
+    }
+
+    @Override
+    public void changeProductStockInfo(List<Product> productList){
+        productList.forEach(product -> {
+            Integer newStock = product.getStock() - 1;
+            product.setStock(newStock);
+        });
     }
 }

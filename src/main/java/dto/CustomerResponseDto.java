@@ -1,18 +1,16 @@
 package dto;
 
-import model.Address;
 import model.enums.AccountType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class CustomerResponseDto {
     private UserResponseDto userResponseDto;
     private Integer credit;
-    private Set<Address> addresses;
     private AccountType accountType;
     private List<OrderResponseDto> orderResponseDtoList;
+    private Integer score;
 
     public UserResponseDto getUserResponseDto() {
         return userResponseDto;
@@ -28,14 +26,6 @@ public class CustomerResponseDto {
 
     public void setCredit(Integer credit) {
         this.credit = credit;
-    }
-
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
     }
 
     public AccountType getAccountType() {
@@ -55,5 +45,13 @@ public class CustomerResponseDto {
 
     public void setOrderResponseDtoList(List<OrderResponseDto> orderResponseDtoList) {
         this.orderResponseDtoList = orderResponseDtoList;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

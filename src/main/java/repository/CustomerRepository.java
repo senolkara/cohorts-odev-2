@@ -15,4 +15,6 @@ public interface CustomerRepository extends BaseRepository {
     Optional<CustomerResponseDto> getByEmail(String email);
     User getUserByEmail(String email);
     Customer getCustomerByEmail(String email);
+    CustomerResponseDto getCustomerResponseDto(Customer customer);
+    void changeAccountType(CustomerResponseDto customerResponseDto);
 }

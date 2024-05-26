@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public class User {
     private String name;
     private String surname;
@@ -7,15 +9,19 @@ public class User {
     private String password;
     private String phoneNumber;
     private Boolean isActive;
+    private String address;
+    private LocalDate birthDate;
 
     private User(){}
 
-    public User(String name, String surname, String email, String password) {
+    public User(String name, String surname, String email, String password, String address, LocalDate birthDate) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.isActive = true;
+        this.address = address;
+        this.birthDate = birthDate;
     }
 
     public String getName() {
@@ -66,6 +72,22 @@ public class User {
         isActive = active;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -75,6 +97,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", isActive=" + isActive +
+                ", address=" + address +
+                ", birthDate=" + birthDate +
                 '}';
     }
 }

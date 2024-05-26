@@ -7,5 +7,6 @@ public enum ServiceType {
     PRODUCT,
     PUBLISHER,
     ORDER,
-    CATEGORY
+    CATEGORY,
+    INVOICE
 }

@@ -8,6 +8,8 @@ import service.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,8 @@ public class Main {
         userRequestDto1.setEmail("cemdirman@gmail.com");
         userRequestDto1.setPhoneNumber("05051234567");
         userRequestDto1.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDto1.setAddress("istanbul");
+        userRequestDto1.setBirthDate(LocalDate.of(1995, Month.JANUARY, 1));
         userRequestDtoList.add(userRequestDto1);
 
         UserRequestDto userRequestDto2 = new UserRequestDto();
@@ -30,6 +34,8 @@ public class Main {
         userRequestDto2.setEmail("senolkarakurt@gmail.com");
         userRequestDto2.setPhoneNumber("05051234567");
         userRequestDto2.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDto2.setAddress("ankara");
+        userRequestDto2.setBirthDate(LocalDate.of(1994, Month.JANUARY, 1));
         userRequestDtoList.add(userRequestDto2);
 
         UserRequestDto userRequestDto3 = new UserRequestDto();
@@ -38,6 +44,8 @@ public class Main {
         userRequestDto3.setEmail("ahmetdasdelen@gmail.com");
         userRequestDto3.setPhoneNumber("05051234567");
         userRequestDto3.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDto3.setAddress("izmir");
+        userRequestDto3.setBirthDate(LocalDate.of(1990, Month.JANUARY, 1));;
         userRequestDtoList.add(userRequestDto3);
 
         UserRequestDto userRequestDto4 = new UserRequestDto();
@@ -46,6 +54,8 @@ public class Main {
         userRequestDto4.setEmail("ahmethamditanpinar@gmail.com");
         userRequestDto4.setPhoneNumber("05051234567");
         userRequestDto4.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDto4.setAddress("bursa");
+        userRequestDto4.setBirthDate(LocalDate.of(1985, Month.JANUARY, 1));
         userRequestDtoList.add(userRequestDto4);
 
         UserRequestDto userRequestDto5 = new UserRequestDto();
@@ -54,6 +64,8 @@ public class Main {
         userRequestDto5.setEmail("murattaskiran@gmail.com");
         userRequestDto5.setPhoneNumber("05051234567");
         userRequestDto5.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDto5.setAddress("adana");
+        userRequestDto5.setBirthDate(LocalDate.of(1975, Month.JANUARY, 1));
         userRequestDtoList.add(userRequestDto5);
 
         UserRequestDto userRequestDto6 = new UserRequestDto();
@@ -62,6 +74,8 @@ public class Main {
         userRequestDto6.setEmail("mehmetbakir@gmail.com");
         userRequestDto6.setPhoneNumber("05051234567");
         userRequestDto6.setPassword(GenerateRandomUnique.createRandomHash("987654321"));
+        userRequestDto6.setAddress("antalya");
+        userRequestDto6.setBirthDate(LocalDate.of(1980, Month.JANUARY, 1));
         userRequestDtoList.add(userRequestDto6);
 
         UserServiceFactory userServiceFactory = new UserServiceFactory();
@@ -261,5 +275,56 @@ public class Main {
         orderService.getAll().forEach(System.out::println);
         System.out.println("\n--------------\n");
 
+        InvoiceServiceFactory invoiceServiceFactory = new InvoiceServiceFactory();
+        InvoiceService invoiceService = invoiceServiceFactory.getBaseService(ServiceType.INVOICE);
+        if (invoiceService == null){
+            throw new RuntimeException("invoice service not found");
+        }
+
+        System.out.println("\nINVOICE LIST\n");
+        int orderedProductCountForCustomer = 0;
+        for (InvoiceResponseDto invoiceResponseDto:invoiceService.getAll()){
+            System.out.println(invoiceResponseDto.getTotalPrice());
+            System.out.println(invoiceResponseDto.getOrderResponseDto().getOrderCode());
+            System.out.println(invoiceResponseDto.getOrderResponseDto().getCustomerResponseDto().getUserResponseDto().getName());
+            System.out.println(invoiceResponseDto.getOrderResponseDto().getCustomerResponseDto().getUserResponseDto().getSurname());
+            System.out.println(invoiceResponseDto.getOrderResponseDto().getCustomerResponseDto().getUserResponseDto().getEmail());
+            System.out.println(invoiceResponseDto.getOrderResponseDto().getCreateDateTime());
+            System.out.println(invoiceResponseDto.getOrderResponseDto().getOrderStatus().toString());
+            if ("cem".equals(invoiceResponseDto.getOrderResponseDto().getCustomerResponseDto().getUserResponseDto().getName())){
+                orderedProductCountForCustomer++;
+            }
+        }
+        System.out.println("\n--------------\n");
+
+        System.out.println("\nTüm müşteri sayısı");
+        int allCustomerCount = customerService.getAll().size();
+        System.out.println(allCustomerCount + " tane müşteri bulunmaktadır.");
+
+        System.out.println("\nİsmi Cem olan müşterilerin aldıkları ürün sayısı: " + orderedProductCountForCustomer);
+
+        BigDecimal totalAmountForOrder = invoiceService.getAll()
+                .stream()
+                .filter(invoiceResponseDto -> "cem".equals(invoiceResponseDto.getOrderResponseDto().getCustomerResponseDto().getUserResponseDto().getName()))
+                .filter(invoiceResponseDto -> {
+                    LocalDate curDate = LocalDate.now();
+                    LocalDate birthDate = invoiceResponseDto.getOrderResponseDto().getCustomerResponseDto().getUserResponseDto().getBirthDate();
+                    Integer age = Period.between(birthDate, curDate).getYears();
+                    return age.compareTo(30) < 0 && age.compareTo(25) > 0;
+                })
+                .map(InvoiceResponseDto::getOrderResponseDto)
+                .flatMap(orderResponseDto -> orderResponseDto.getProductResponseDtoList().stream())
+                .map(ProductResponseDto::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        System.out.println("İsmi Cem olup yaşı 30’dan küçük 25’ten büyük müşterilerin toplam alışveriş tutarı: " + totalAmountForOrder);
+
+        List<InvoiceResponseDto> invoiceResponseDtoListForGreaterThan1500 = invoiceService.getAll()
+                .stream()
+                .filter(invoiceResponseDto -> invoiceResponseDto.getTotalPrice().compareTo(BigDecimal.valueOf(1500)) > 0)
+                .toList();
+
+        System.out.println("\n1500 TL üzerindeki faturalar: " + invoiceResponseDtoListForGreaterThan1500.size());
+        invoiceResponseDtoListForGreaterThan1500.forEach(System.out::println);
     }
 }

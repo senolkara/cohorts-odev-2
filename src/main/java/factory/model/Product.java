@@ -16,4 +16,5 @@ public interface Product {
     Author getAuthor();
     Category getCategory();
     Integer getStock();
+    void setStock(Integer stock);
 }

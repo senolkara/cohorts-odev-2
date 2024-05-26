@@ -16,5 +16,6 @@ public interface ProductRepository extends BaseRepository {
     Publisher getPublisherByProductRequestDto(ProductRequestDto productRequestDto);
     Author getAuthorByProductRequestDto(ProductRequestDto productRequestDto);
     Category getCategoryByProductRequestDto(ProductRequestDto productRequestDto);
-    Product getProductByProductRequestDto(ProductRequestDto productRequestDto);
+    Product getProductByProductRequestDto(ProductRequestDto productRequestDtoForGet);
+    ProductResponseDto getProductResponseDto(Product product);
 }

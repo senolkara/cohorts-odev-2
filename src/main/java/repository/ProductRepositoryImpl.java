@@ -94,12 +94,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Product getProductByProductRequestDto(ProductRequestDto productRequestDtoForControl){
+    public Product getProductByProductRequestDto(ProductRequestDto productRequestDtoForGet){
         Optional<Product> productByProductRequestDto = productSet.stream()
-                .filter(product -> product.getName().equals(productRequestDtoForControl.getName()))
-                .filter(product -> product.getAuthor().getUser().getName().equals(productRequestDtoForControl.getAuthorRequestDto().getUserRequestDto().getName()))
-                .filter(product -> product.getPublisher().getName().equals(productRequestDtoForControl.getPublisherRequestDto().getName()))
-                .filter(product -> product.getCategory().getName().equals(productRequestDtoForControl.getCategoryRequestDto().getName()))
+                .filter(product -> product.getName().equals(productRequestDtoForGet.getName()))
+                .filter(product -> product.getAuthor().getUser().getName().equals(productRequestDtoForGet.getAuthorRequestDto().getUserRequestDto().getName()))
+                .filter(product -> product.getPublisher().getName().equals(productRequestDtoForGet.getPublisherRequestDto().getName()))
+                .filter(product -> product.getCategory().getName().equals(productRequestDtoForGet.getCategoryRequestDto().getName()))
                 .findFirst();
         if (productByProductRequestDto.isEmpty()){
             throw new RuntimeException("product not found!");
@@ -107,7 +107,8 @@ public class ProductRepositoryImpl implements ProductRepository {
         return productByProductRequestDto.get();
     }
 
-    private ProductResponseDto getProductResponseDto(Product product) {
+    @Override
+    public ProductResponseDto getProductResponseDto(Product product) {
         ProductResponseDto productResponseDto = new ProductResponseDto();
         productResponseDto.setName(product.getName());
         productResponseDto.setAmount(product.getAmount());

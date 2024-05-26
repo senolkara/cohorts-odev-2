@@ -25,7 +25,9 @@ public class AuthorRepositoryImpl implements AuthorRepository {
                 authorRequestDto.getUserRequestDto().getName(),
                 authorRequestDto.getUserRequestDto().getSurname(),
                 authorRequestDto.getUserRequestDto().getEmail(),
-                authorRequestDto.getBio()
+                authorRequestDto.getUserRequestDto().getPassword(),
+                authorRequestDto.getUserRequestDto().getAddress(),
+                authorRequestDto.getUserRequestDto().getBirthDate()
         );
         author.setUser(user);
         authorList.add(author);

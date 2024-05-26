@@ -1,11 +1,15 @@
 package dto;
 
+import java.time.LocalDate;
+
 public class UserRequestDto {
     private String name;
     private String surname;
     private String email;
     private String password;
     private String phoneNumber;
+    private String address;
+    private LocalDate birthDate;
 
     public String getName() {
         return name;
@@ -45,5 +49,21 @@ public class UserRequestDto {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 }

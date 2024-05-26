@@ -2,21 +2,22 @@ package model;
 
 import model.enums.AccountType;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Customer extends User {
 
     private User user;
     private Integer credit;
-    private Set<Address> addresses;
     private AccountType accountType;
     private List<Order> orderList;
+    private Integer score;
 
-    public Customer(String name, String surname, String email, String password) {
-        super(name, surname, email, password);
+    public Customer(String name, String surname, String email, String password, String address, LocalDate birthDate) {
+        super(name, surname, email, password, address, birthDate);
         this.accountType = AccountType.STANDARD;
+        this.score = 0;
     }
 
     public User getUser() {
@@ -33,14 +34,6 @@ public class Customer extends User {
 
     public void setCredit(Integer credit) {
         this.credit = credit;
-    }
-
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
     }
 
     public AccountType getAccountType() {
@@ -62,5 +55,11 @@ public class Customer extends User {
         this.orderList = orderList;
     }
 
+    public Integer getScore() {
+        return score;
+    }
 
+    public void setScore(Integer score) {
+        this.score = score;
+    }
 }

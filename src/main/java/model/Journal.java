@@ -95,6 +95,7 @@ public class Journal implements Product {
         return stock;
     }
 
+    @Override
     public void setStock(Integer stock) {
         this.stock = stock;
     }

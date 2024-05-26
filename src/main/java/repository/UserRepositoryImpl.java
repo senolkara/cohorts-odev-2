@@ -18,7 +18,9 @@ public class UserRepositoryImpl implements UserRepository {
                 userRequestDto.getName(),
                 userRequestDto.getSurname(),
                 userRequestDto.getEmail(),
-                userRequestDto.getPassword()
+                userRequestDto.getPassword(),
+                userRequestDto.getAddress(),
+                userRequestDto.getBirthDate()
         );
         userList.add(user);
     }
@@ -57,6 +59,8 @@ public class UserRepositoryImpl implements UserRepository {
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setPhoneNumber(user.getPhoneNumber());
         userResponseDto.setActive(user.getActive());
+        userResponseDto.setAddress(user.getAddress());
+        userResponseDto.setBirthDate(user.getBirthDate());
         return userResponseDto;
     }
 }
